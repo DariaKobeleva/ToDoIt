@@ -14,6 +14,14 @@ final class TaskListViewController: UITableViewController {
         view.backgroundColor = .systemBackground
         setupNavigationBar()
     }
+    
+    
+    @objc private func addNewTask() {
+        let newTaskVC = NewTaskViewController()
+        present(newTaskVC, animated: true)
+        
+    }
+    
 }
 
 
@@ -37,5 +45,15 @@ private extension TaskListViewController {
         
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        
+        // Add button to navigation bar
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addNewTask)
+        )
+        
+        navigationController?.navigationBar.tintColor = .white
     }
+    
 }
