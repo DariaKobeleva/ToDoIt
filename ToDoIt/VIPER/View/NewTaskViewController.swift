@@ -8,6 +8,7 @@
 import UIKit
 
 final class NewTaskViewController: UIViewController {
+    weak var delegate: NewTaskViewControllerDelegate?
     
     private lazy var taskTextField: UITextField = {
         let textField = UITextField()
@@ -18,39 +19,28 @@ final class NewTaskViewController: UIViewController {
     }()
     
     private lazy var saveButton: UIButton = {
-        //Set attributes for button tittle
-        var attributes = AttributeContainer()
-        attributes.font = UIFont.boldSystemFont(ofSize: 18)
+        let filledButtonFactory = FilledButtonFactory(
+            title: "Save Task",
+            color: .systemMint,
+            action: UIAction { [unowned self] _ in
+                save()
+            }
+        )
         
-        var buttonConfig = UIButton.Configuration.filled()
-        buttonConfig.baseBackgroundColor = .milkBlue
-        buttonConfig.title = "Save Task"
-        buttonConfig.attributedTitle = AttributedString("Save Task", attributes: attributes)
-        
-        let button = UIButton(configuration: buttonConfig, primaryAction: UIAction { [unowned self] _ in
-            save()
-        })
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        return filledButtonFactory.createButton()
     }()
     
     private lazy var cancelButton: UIButton = {
-        //Set attributes for button tittle
-        var attributes = AttributeContainer()
-        attributes.font = UIFont.boldSystemFont(ofSize: 18)
+        let filledButtonFactory = FilledButtonFactory(
+            title: "Cancel Task",
+            color: .milkRed,
+            action: UIAction { [unowned self] _ in
+                dismiss(animated: true)
+            }
+        )
         
-        var buttonConfig = UIButton.Configuration.filled()
-        buttonConfig.baseBackgroundColor = .milkRed
-        buttonConfig.title = "Save Task"
-        buttonConfig.attributedTitle = AttributedString("Cancel Task", attributes: attributes)
-        
-        let button = UIButton(configuration: buttonConfig, primaryAction: UIAction { [unowned self] _ in
-            dismiss(animated: true)
-        })
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        return filledButtonFactory.createButton()
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,11 +76,12 @@ final class NewTaskViewController: UIViewController {
     }
     
     private func save() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let task = ToDoTask(context: appDelegate.persistentContainer.viewContext)
+        task.title = taskTextField.text
+        appDelegate.saveContext()
+        delegate?.reloadData()
         dismiss(animated: true)
     }
 }
 
-
-#Preview {
-    NewTaskViewController()
-}
