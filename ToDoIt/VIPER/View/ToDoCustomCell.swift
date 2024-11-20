@@ -7,7 +7,8 @@
 
 import UIKit
 
-final class CustomToDoCell: UITableViewCell {
+final class ToDoCustomCell: UITableViewCell {
+    
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let dateLabel = UILabel()
@@ -93,7 +94,7 @@ final class CustomToDoCell: UITableViewCell {
     func configure(with task: Todo) {
         // Устанавливаем текст
         descriptionLabel.text = task.description
-        dateLabel.text = DateFormatter.localizedString(from: task.createdAt, dateStyle: .short, timeStyle: .none)
+        dateLabel.text = DateFormatter.localizedString(from: task.currentDate, dateStyle: .short, timeStyle: .none)
         
         // Проверяем состояние чекбокса и обновляем стили
         if task.isCompleted {

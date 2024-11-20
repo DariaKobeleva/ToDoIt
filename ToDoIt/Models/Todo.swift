@@ -19,7 +19,7 @@ struct Todo {
         id = entity.id ?? UUID()
         title = entity.title ?? "Untitled"
         description = entity.taskDescription ?? "No description"
-        currentDate = entity.date ?? Date()
+        currentDate = entity.currentDate ?? Date()
         isCompleted = entity.isCompleted
     }
     

@@ -43,7 +43,7 @@ final class CoreDataManager {
 
     func fetchAllTodos() throws -> [Todo] {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "currentDate", ascending: false)]
 
         do {
             let toDoTask = try context.fetch(request)
@@ -62,7 +62,7 @@ final class CoreDataManager {
         entity.id = task.id
         entity.title = task.title
         entity.taskDescription = task.description
-        entity.date = task.currentDate
+        entity.currentDate = task.currentDate
         entity.isCompleted = task.isCompleted
         saveContext()
     }

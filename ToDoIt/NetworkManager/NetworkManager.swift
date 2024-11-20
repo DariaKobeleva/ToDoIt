@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NeteorkManager {
+final class NetworkManager {
     
     func fetchTodos(completion: @escaping (Result<[Todo], Error>) -> Void) {
         guard let url = URL(string: "https://dummyjson.com/todos") else {
