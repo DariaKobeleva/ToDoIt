@@ -9,11 +9,10 @@ import CoreData
 import Foundation
 
 final class CoreDataManager {
-    
     static let shared = CoreDataManager()
-    
+
     private init() {}
-    
+
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "ToDoIt")
         container.loadPersistentStores { _, error in
@@ -23,13 +22,13 @@ final class CoreDataManager {
         }
         return container
     }()
-    
+
     var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
-    
+
     // MARK: - Core Data Operations
-    
+
     func saveContext() {
         guard context.hasChanges else { return }
         do {
@@ -39,13 +38,13 @@ final class CoreDataManager {
             print("CoreDataManager: Failed to save context: \(error.localizedDescription)")
         }
     }
-    
+
     // MARK: - Fetch Operations
-    
+
     func fetchAllTodos() throws -> [Task] {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-        
+
         do {
             let toDoTask = try context.fetch(request)
             print("CoreDataManager: Fetched \(toDoTask.count) todos.")
@@ -55,9 +54,9 @@ final class CoreDataManager {
             throw error
         }
     }
-    
+
     // MARK: - Add Operations
-    
+
     func addTodo(_ task: Task) throws {
         let entity = ToDoTask(context: context)
         entity.id = task.id
@@ -67,13 +66,13 @@ final class CoreDataManager {
         entity.isCompleted = task.isCompleted
         saveContext()
     }
-    
+
     // MARK: - Update Operations
-    
+
     func updateTodo(_ task: Task) throws {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", task.id.uuidString)
-        
+
         do {
             guard let entity = try context.fetch(request).first else {
                 print("CoreDataManager: Todo not found with id \(task.id).")
@@ -89,13 +88,13 @@ final class CoreDataManager {
             throw error
         }
     }
-    
+
     // MARK: - Delete Operations
-    
+
     func deleteTodo(_ task: Task) throws {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", task.id.uuidString)
-        
+
         do {
             guard let entity = try context.fetch(request).first else {
                 print("CoreDataManager: Todo not found with id \(task.id).")
@@ -109,6 +108,4 @@ final class CoreDataManager {
             throw error
         }
     }
-    
 }
-

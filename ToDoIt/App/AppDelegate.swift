@@ -25,10 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
-    // MARK: - Core Data stack
-    
-
-  
-    
 }
 
+
+//swiftformat /Users/d.kobeleva/projects/BIG-iOS/Frameworks/Level\ 4/UI/Main/Components/Chats/ChatsStoryAvatar.swift --swiftversion 5.5
