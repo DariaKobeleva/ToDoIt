@@ -36,6 +36,7 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
         setupSearchBar()
         setupTableView()
         setupFooterView()
+        setupTapGestureToDismissKeyboard()
     }
     
     private func setupNavigationBar() {
@@ -48,12 +49,13 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
     
     private func setupSearchBar() {
         searchBar.delegate = self
-        searchBar.placeholder = "Поиск задач"
+        searchBar.placeholder = "Search"
         searchBar.searchTextField.textColor = .gray
+        searchBar.backgroundColor = .systemBackground
         searchBar.searchTextField.leftView?.tintColor = .darkGray
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-            string: "Поиск задач",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+            string: "Search",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBackground]
         )
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
@@ -82,7 +84,6 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
         ])
     }
     
-    /// Настройка футера с информацией о задачах и кнопкой редактирования.
     private func setupFooterView() {
         footerView.backgroundColor = .black
         footerView.translatesAutoresizingMaskIntoConstraints = false
@@ -225,3 +226,18 @@ extension TodoViewController: TodoDetailDelegate {
     }
 }
 
+extension TodoViewController {
+    private func setupTapGestureToDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardAndClearSearch))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboardAndClearSearch() {
+        if let searchText = searchBar.text, !searchText.isEmpty {
+            searchBar.text = ""
+            presenter?.viewDidLoad()
+        }
+        view.endEditing(true)
+    }
+}
