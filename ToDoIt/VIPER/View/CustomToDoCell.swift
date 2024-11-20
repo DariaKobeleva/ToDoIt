@@ -90,7 +90,7 @@ final class CustomToDoCell: UITableViewCell {
         checkboxTapped?()
     }
     
-    func configure(with task: Task) {
+    func configure(with task: Todo) {
         // Устанавливаем текст
         descriptionLabel.text = task.description
         dateLabel.text = DateFormatter.localizedString(from: task.createdAt, dateStyle: .short, timeStyle: .none)

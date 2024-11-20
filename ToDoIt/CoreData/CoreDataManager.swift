@@ -41,14 +41,14 @@ final class CoreDataManager {
 
     // MARK: - Fetch Operations
 
-    func fetchAllTodos() throws -> [Task] {
+    func fetchAllTodos() throws -> [Todo] {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
 
         do {
             let toDoTask = try context.fetch(request)
             print("CoreDataManager: Fetched \(toDoTask.count) todos.")
-            return toDoTask.map { Task(from: $0) }
+            return toDoTask.map { Todo(from: $0) }
         } catch {
             print("CoreDataManager: Failed to fetch todos: \(error.localizedDescription)")
             throw error
@@ -57,19 +57,19 @@ final class CoreDataManager {
 
     // MARK: - Add Operations
 
-    func addTodo(_ task: Task) throws {
+    func addTodo(_ task: Todo) throws {
         let entity = ToDoTask(context: context)
         entity.id = task.id
         entity.title = task.title
         entity.taskDescription = task.description
-        entity.date = task.date
+        entity.date = task.currentDate
         entity.isCompleted = task.isCompleted
         saveContext()
     }
 
     // MARK: - Update Operations
 
-    func updateTodo(_ task: Task) throws {
+    func updateTodo(_ task: Todo) throws {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", task.id.uuidString)
 
@@ -91,7 +91,7 @@ final class CoreDataManager {
 
     // MARK: - Delete Operations
 
-    func deleteTodo(_ task: Task) throws {
+    func deleteTodo(_ task: Todo) throws {
         let request: NSFetchRequest<ToDoTask> = ToDoTask.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", task.id.uuidString)
 
