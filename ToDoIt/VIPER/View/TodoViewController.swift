@@ -50,13 +50,22 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search"
-        searchBar.searchTextField.textColor = .gray
-        searchBar.backgroundColor = .systemBackground
-        searchBar.searchTextField.leftView?.tintColor = .darkGray
+        searchBar.searchTextField.textColor = .white // Цвет текста в поле поиска
+        searchBar.searchTextField.leftView?.tintColor = .white // Цвет иконки поиска
+        searchBar.searchTextField.backgroundColor = .darkGray // Фон самого текстового поля
+        searchBar.searchTextField.layer.cornerRadius = 10
+        searchBar.searchTextField.clipsToBounds = true
+        
+        // Убираем фон UISearchBar
+        searchBar.backgroundImage = UIImage()
+        searchBar.barTintColor = .clear
+        searchBar.backgroundColor = .clear
+        
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: "Search",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemBackground]
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         )
+        
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
         
@@ -232,7 +241,7 @@ extension TodoViewController {
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
-
+    
     @objc private func dismissKeyboardAndClearSearch() {
         if let searchText = searchBar.text, !searchText.isEmpty {
             searchBar.text = ""
