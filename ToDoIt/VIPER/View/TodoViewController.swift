@@ -50,13 +50,12 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search"
-        searchBar.searchTextField.textColor = .white // Цвет текста в поле поиска
-        searchBar.searchTextField.leftView?.tintColor = .white // Цвет иконки поиска
-        searchBar.searchTextField.backgroundColor = .darkGray // Фон самого текстового поля
+        searchBar.searchTextField.textColor = .white
+        searchBar.searchTextField.leftView?.tintColor = .white
+        searchBar.searchTextField.backgroundColor = .darkGray
         searchBar.searchTextField.layer.cornerRadius = 10
         searchBar.searchTextField.clipsToBounds = true
         
-        // Убираем фон UISearchBar
         searchBar.backgroundImage = UIImage()
         searchBar.barTintColor = .clear
         searchBar.backgroundColor = .clear
