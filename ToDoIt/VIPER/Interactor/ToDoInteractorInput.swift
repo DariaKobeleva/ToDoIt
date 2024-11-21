@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol TodoInteractorInput: AnyObject {
+protocol ToDoInteractorInput: AnyObject {
     
     func fetchTodos()
-    func addTodo(_ todo: Todo)
-    func updateTodo(_ todo: Todo)
-    func deleteTodo(_ todo: Todo)
+    func addTodo(_ todo: ToDo)
+    func updateTodo(_ todo: ToDo)
+    func deleteTodo(_ todo: ToDo)
     func searchTodos(with query: String)
     
 }

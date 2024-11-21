@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol TodoInteractorOutput: AnyObject {
+protocol ToDoInteractorOutput: AnyObject {
     
-    func didFetchTodos(_ todos: [Todo])
+    func didFetchTodos(_ todos: [ToDo])
     func didFailWithError(_ error: Error)
     
 }

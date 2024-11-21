@@ -1,5 +1,5 @@
 //
-//  TodoOverlayView.swift
+//  ToDoOverlayView.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TodoOverlayView: UIView {
+final class ToDoOverlayView: UIView {
     
     var onEditTapped: (() -> Void)?
     var onDeleteTapped: (() -> Void)?
@@ -22,6 +22,8 @@ final class TodoOverlayView: UIView {
     private let editButton = UIButton(type: .system)
     private let deleteButton = UIButton(type: .system)
     private let shareButton = UIButton(type: .system)
+    private var actionItems: [ActionItem] = []
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,7 +70,7 @@ final class TodoOverlayView: UIView {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         textContainer.addSubview(dateLabel)
         
-        buttonContainer.backgroundColor = .white
+        buttonContainer.backgroundColor = UIColor(hex: "#EDEDEDCC")
         buttonContainer.layer.cornerRadius = 12
         buttonContainer.translatesAutoresizingMaskIntoConstraints = false
         addSubview(buttonContainer)
@@ -76,25 +78,28 @@ final class TodoOverlayView: UIView {
         configureButton(
             editButton,
             title: "Редактировать",
-            titleColor: .systemBlue,
-            imageName: "pencil",
+            titleColor: UIColor(hex: "#040404") ?? .black,
+            imageName: "pencilBorder",
             action: #selector(editTapped)
         )
-        configureButton(
-            deleteButton,
-            title: "Удалить",
-            titleColor: .systemRed,
-            imageName: "trash",
-            action: #selector(deleteTapped)
-        )
+        addSeparator(below: editButton)
+        
         configureButton(
             shareButton,
             title: "Поделиться",
-            titleColor: .systemGray,
-            imageName: "square.and.arrow.up",
+            titleColor: UIColor(hex: "#040404") ?? .black,
+            imageName: "share",
             action: #selector(shareTapped)
         )
+        addSeparator(below: shareButton)
         
+        configureButton(
+            deleteButton,
+            title: "Удалить",
+            titleColor: UIColor(hex: "#D70015") ?? .systemRed,
+            imageName: "trash",
+            action: #selector(deleteTapped)
+        )
         setupConstraints()
     }
     
@@ -105,16 +110,42 @@ final class TodoOverlayView: UIView {
         imageName: String?,
         action: Selector
     ) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.3
+        
         var configuration = UIButton.Configuration.plain()
         configuration.title = title
         configuration.baseForegroundColor = titleColor
-        configuration.image = UIImage(systemName: imageName ?? "")
-        configuration.imagePlacement = .leading
+        
+        if let imageName = imageName {
+            configuration.image = UIImage(named: imageName)?
+                .withRenderingMode(.alwaysOriginal)
+                .resizeImage(to: CGSize(width: 16, height: 16))
+        }
+        
+        configuration.imagePlacement = .trailing
         configuration.imagePadding = 8
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 11, leading: 16, bottom: 11, trailing: 16)
+        
         button.configuration = configuration
+        button.contentHorizontalAlignment = .leading
         button.addTarget(self, action: action, for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         buttonContainer.addSubview(button)
+    }
+    
+    private func addSeparator(below button: UIButton) {
+        let separator = UIView()
+        separator.backgroundColor = UIColor(hex: "#4D555E80")?.withAlphaComponent(0.2)
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        buttonContainer.addSubview(separator)
+        
+        NSLayoutConstraint.activate([
+            separator.topAnchor.constraint(equalTo: button.bottomAnchor),
+            separator.leadingAnchor.constraint(equalTo: buttonContainer.leadingAnchor, constant: 0),
+            separator.trailingAnchor.constraint(equalTo: buttonContainer.trailingAnchor, constant: 0),
+            separator.heightAnchor.constraint(equalToConstant: 0.5)
+        ])
     }
     
     private func setupConstraints() {
@@ -136,21 +167,28 @@ final class TodoOverlayView: UIView {
             dateLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             dateLabel.bottomAnchor.constraint(equalTo: textContainer.bottomAnchor, constant: -16),
             
-            buttonContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            buttonContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40),
+            // Контейнер кнопок с гибкой шириной
+            buttonContainer.centerXAnchor.constraint(equalTo: centerXAnchor), // Центрируем по горизонтали
+            buttonContainer.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16), // Минимальный отступ от краёв
+            buttonContainer.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16), // Максимальный отступ от краёв
+            buttonContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 254), // Максимальная ширина
+            buttonContainer.widthAnchor.constraint(greaterThanOrEqualToConstant: 200),
             buttonContainer.topAnchor.constraint(equalTo: textContainer.bottomAnchor, constant: 16),
             buttonContainer.heightAnchor.constraint(equalToConstant: 180),
             
+            // Кнопка "Редактировать"
             editButton.topAnchor.constraint(equalTo: buttonContainer.topAnchor, constant: 16),
             editButton.leadingAnchor.constraint(equalTo: buttonContainer.leadingAnchor, constant: 16),
             editButton.trailingAnchor.constraint(equalTo: buttonContainer.trailingAnchor, constant: -16),
             editButton.heightAnchor.constraint(equalToConstant: 44),
             
+            // Кнопка "Поделиться"
             shareButton.topAnchor.constraint(equalTo: editButton.bottomAnchor, constant: 16),
             shareButton.leadingAnchor.constraint(equalTo: buttonContainer.leadingAnchor, constant: 16),
             shareButton.trailingAnchor.constraint(equalTo: buttonContainer.trailingAnchor, constant: -16),
             shareButton.heightAnchor.constraint(equalToConstant: 44),
             
+            // Кнопка "Удалить"
             deleteButton.topAnchor.constraint(equalTo: shareButton.bottomAnchor, constant: 16),
             deleteButton.leadingAnchor.constraint(equalTo: buttonContainer.leadingAnchor, constant: 16),
             deleteButton.trailingAnchor.constraint(equalTo: buttonContainer.trailingAnchor, constant: -16),
@@ -159,10 +197,32 @@ final class TodoOverlayView: UIView {
         ])
     }
     
-    func configure(with todo: Todo) {
+    
+    func configure(with todo: ToDo) {
         titleLabel.text = todo.title
         descriptionLabel.text = todo.description
         dateLabel.text = DateFormatter.localizedString(from: todo.currentDate, dateStyle: .short, timeStyle: .none)
+    }
+    // MARK: - UITableViewDelegate & UITableViewDataSource
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        actionItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ToDoActionCell.reuseIdentifier, for: indexPath) as? ToDoActionCell else {
+            return UITableViewCell()
+        }
+        
+        let item = actionItems[indexPath.row]
+        cell.configure(with: item)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = actionItems[indexPath.row]
+        item.action()
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @objc private func handleBackgroundTap(_ sender: UITapGestureRecognizer) {
@@ -179,5 +239,15 @@ final class TodoOverlayView: UIView {
     
     @objc private func shareTapped() {
         onShareTapped?()
+    }
+}
+
+extension UIImage {
+    func resizeImage(to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        self.draw(in: CGRect(origin: .zero, size: size))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage
     }
 }

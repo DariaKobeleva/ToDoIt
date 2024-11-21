@@ -1,5 +1,5 @@
 //
-//  CustomTaskCell.swift
+//  ToDoCustomTaskCell.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 19.11.2024.
@@ -32,7 +32,7 @@ final class ToDoCustomCell: UITableViewCell {
         
         // Настройка кнопки чекбокса
         checkboxButton.setImage(UIImage(systemName: "circle"), for: .normal)
-        checkboxButton.tintColor = .yellow
+        checkboxButton.tintColor = UIColor(hex: "#FED702")
         checkboxButton.addTarget(self, action: #selector(checkboxTappedAction), for: .touchUpInside)
         checkboxButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(checkboxButton)
@@ -66,7 +66,6 @@ final class ToDoCustomCell: UITableViewCell {
             checkboxButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             checkboxButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             checkboxButton.widthAnchor.constraint(equalToConstant: 24),
-            checkboxButton.heightAnchor.constraint(equalToConstant: 24),
             
             titleLabel.leadingAnchor.constraint(equalTo: checkboxButton.trailingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -91,7 +90,7 @@ final class ToDoCustomCell: UITableViewCell {
         checkboxTapped?()
     }
     
-    func configure(with task: Todo) {
+    func configure(with task: ToDo) {
         // Устанавливаем текст
         descriptionLabel.text = task.description
         dateLabel.text = DateFormatter.localizedString(from: task.currentDate, dateStyle: .short, timeStyle: .none)

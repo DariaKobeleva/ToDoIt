@@ -9,7 +9,7 @@ import Foundation
 
 final class NetworkManager {
     
-    func fetchTodos(completion: @escaping (Result<[Todo], Error>) -> Void) {
+    func fetchTodos(completion: @escaping (Result<[ToDo], Error>) -> Void) {
         guard let url = URL(string: "https://dummyjson.com/todos") else {
             print("TodoAPIService: Invalid URL.")
             completion(.failure(NSError(domain: "Invalid URL", code: -1, userInfo: nil)))
@@ -35,10 +35,10 @@ final class NetworkManager {
             print("NeteorkManager: Data received. Decoding...")
 
             do {
-                let response = try JSONDecoder().decode(TodoAPIResponse.self, from: data)
+                let response = try JSONDecoder().decode(ToDoAPIResponse.self, from: data)
 
                 let todos = response.todos.map { apiTodo in
-                    Todo(
+                    ToDo(
                         id: UUID(),
                         title: apiTodo.todo,
                         description: "Imported Task",

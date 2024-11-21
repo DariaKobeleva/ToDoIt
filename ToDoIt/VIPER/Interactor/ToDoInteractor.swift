@@ -1,5 +1,5 @@
 //
-//  TodoInteractor.swift
+//  ToDoInteractor.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class TodoInteractor: TodoInteractorInput {
-    weak var output: TodoInteractorOutput?
+final class ToDoInteractor: ToDoInteractorInput {
+    weak var output: ToDoInteractorOutput?
     
     private let apiService = NetworkManager()
     
@@ -70,7 +70,7 @@ final class TodoInteractor: TodoInteractorInput {
     
     // MARK: - Add Todo
     
-    func addTodo(_ todo: Todo) {
+    func addTodo(_ todo: ToDo) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try CoreDataManager.shared.addTodo(todo)
@@ -87,7 +87,7 @@ final class TodoInteractor: TodoInteractorInput {
     
     // MARK: - Update Todo
     
-    func updateTodo(_ todo: Todo) {
+    func updateTodo(_ todo: ToDo) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try CoreDataManager.shared.updateTodo(todo)
@@ -104,7 +104,7 @@ final class TodoInteractor: TodoInteractorInput {
     
     // MARK: - Delete Todo
     
-    func deleteTodo(_ todo: Todo) {
+    func deleteTodo(_ todo: ToDo) {
         DispatchQueue.global(qos: .userInitiated).async {
             do {
                 try CoreDataManager.shared.deleteTodo(todo)

@@ -1,5 +1,5 @@
 //
-//  TodoViewController.swift
+//  ToDoViewController.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class TodoViewController: UIViewController, TodoViewProtocol {
+final class ToDoViewController: UIViewController, TodoViewProtocol {
     
-    var presenter: TodoPresenter?
+    var presenter: ToDoPresenter?
     
-    private var todos: [Todo] = []
+    private var todos: [ToDo] = []
     
     private let tableView = UITableView()
     
@@ -103,7 +103,7 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
         footerView.addSubview(tasksCountLabel)
         
         editButton.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        editButton.tintColor = .yellow
+        editButton.tintColor = UIColor(hex: "#FED702")
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         editButton.translatesAutoresizingMaskIntoConstraints = false
         footerView.addSubview(editButton)
@@ -130,7 +130,7 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
     }
     
     // MARK: - Методы TodoViewProtocol
-    func displayTodos(_ todos: [Todo]) {
+    func displayTodos(_ todos: [ToDo]) {
         print("TodoViewController: Displaying \(todos.count) todos.")
         self.todos = todos
         tasksCountLabel.text = "\(todos.count) Задач"
@@ -147,7 +147,7 @@ final class TodoViewController: UIViewController, TodoViewProtocol {
 
 // MARK: - UITableViewDataSource и UITableViewDelegate
 
-extension TodoViewController: UITableViewDataSource, UITableViewDelegate {
+extension ToDoViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
     }
@@ -162,7 +162,7 @@ extension TodoViewController: UITableViewDataSource, UITableViewDelegate {
         
         cell.checkboxTapped = { [weak self] in
             guard let self = self else { return }
-            let updatedTodo = Todo(
+            let updatedTodo = ToDo(
                 id: todo.id,
                 title: todo.title,
                 description: todo.description,
@@ -177,7 +177,7 @@ extension TodoViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let todo = todos[indexPath.row]
-        let overlay = TodoOverlayView(frame: view.bounds)
+        let overlay = ToDoOverlayView(frame: view.bounds)
         overlay.configure(with: todo)
         
         overlay.onEditTapped = { [weak self] in
@@ -207,7 +207,7 @@ extension TodoViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - UISearchBarDelegate
 
-extension TodoViewController: UISearchBarDelegate {
+extension ToDoViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             presenter?.viewDidLoad()
@@ -219,8 +219,8 @@ extension TodoViewController: UISearchBarDelegate {
 
 // MARK: - TodoDetailDelegate
 
-extension TodoViewController: TodoDetailDelegate {
-    func didSaveTodo(_ todo: Todo) {
+extension ToDoViewController: ToDoDetailDelegate {
+    func didSaveTodo(_ todo: ToDo) {
         if let index = todos.firstIndex(where: { $0.id == todo.id }) {
             todos[index] = todo
             let indexPath = IndexPath(row: index, section: 0)
@@ -234,7 +234,7 @@ extension TodoViewController: TodoDetailDelegate {
     }
 }
 
-extension TodoViewController {
+extension ToDoViewController {
     private func setupTapGestureToDismissKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardAndClearSearch))
         tapGesture.cancelsTouchesInView = false

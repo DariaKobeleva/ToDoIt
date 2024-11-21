@@ -1,5 +1,5 @@
 //
-//  TodoDetailViewController.swift
+//  ToDoDetailViewController.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol TodoDetailDelegate: AnyObject {
-    func didSaveTodo(_ todo: Todo)
+protocol ToDoDetailDelegate: AnyObject {
+    func didSaveTodo(_ todo: ToDo)
 }
 
 final class TodoDetailViewController: UIViewController {
     
-    var todo: Todo?
+    var todo: ToDo?
     
-    weak var delegate: TodoDetailDelegate?
+    weak var delegate: ToDoDetailDelegate?
     
     private let titleTextField = UITextField()
     
@@ -91,7 +91,7 @@ final class TodoDetailViewController: UIViewController {
         
         let description = descriptionTextView.text ?? ""
         
-        let updatedTodo = Todo(
+        let updatedTodo = ToDo(
             id: todo?.id ?? UUID(),
             title: title,
             description: description,

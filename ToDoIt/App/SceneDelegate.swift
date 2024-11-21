@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let todoModule = TodoRouter.createModule()
+        let todoModule = ToDoRouter.createModule()
         
         let navigationController = UINavigationController(rootViewController: todoModule)
         

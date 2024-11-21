@@ -9,7 +9,7 @@ import Foundation
 
 protocol TodoViewProtocol: AnyObject {
     
-    func displayTodos(_ todos: [Todo])
+    func displayTodos(_ todos: [ToDo])
     
     func displayError(_ error: Error)
     

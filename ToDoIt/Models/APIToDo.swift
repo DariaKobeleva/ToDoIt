@@ -1,5 +1,5 @@
 //
-//  APITodo.swift
+//  APIToDo.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APITodo: Codable {
+struct APIToDo: Codable {
     
     let id: Int
     let todo: String

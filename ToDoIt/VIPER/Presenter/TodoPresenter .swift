@@ -1,5 +1,5 @@
 //
-//  TodoPresenter .swift
+//  ToDoPresenter .swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-final class TodoPresenter {
+final class ToDoPresenter {
     
     weak var view: TodoViewProtocol?
     
-    var interactor: TodoInteractorInput?
+    var interactor: ToDoInteractorInput?
     
     var router: TodoRouterProtocol?
     
-    private var todos: [Todo] = []
+    private var todos: [ToDo] = []
     
     // MARK: - View Lifecycle
 
@@ -26,21 +26,21 @@ final class TodoPresenter {
     
     // MARK: - Add Todo
 
-    func addNewTodo(_ todo: Todo) {
+    func addNewTodo(_ todo: ToDo) {
         print("TodoPresenter: Adding new todo with title \(todo.title).")
         interactor?.addTodo(todo)
     }
     
     // MARK: - Update Todo
     
-    func updateExistingTodo(_ todo: Todo) {
+    func updateExistingTodo(_ todo: ToDo) {
         print("TodoPresenter: Updating todo with id \(todo.id).")
         interactor?.updateTodo(todo)
     }
     
     // MARK: - Delete Todo
     
-    func deleteExistingTodo(_ todo: Todo) {
+    func deleteExistingTodo(_ todo: ToDo) {
         print("TodoPresenter: Deleting todo with id \(todo.id).")
         interactor?.deleteTodo(todo)
     }
@@ -55,9 +55,9 @@ final class TodoPresenter {
 
 // MARK: - TodoInteractorOutput
 
-extension TodoPresenter: TodoInteractorOutput {
+extension ToDoPresenter: ToDoInteractorOutput {
 
-    func didFetchTodos(_ todos: [Todo]) {
+    func didFetchTodos(_ todos: [ToDo]) {
         print("TodoPresenter: Fetched \(todos.count) todos.")
         self.todos = todos
         view?.displayTodos(todos)

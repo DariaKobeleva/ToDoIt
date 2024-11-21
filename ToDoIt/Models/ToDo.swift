@@ -1,5 +1,5 @@
 //
-//  Todo.swift
+//  ToDo.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Todo {
+struct ToDo {
     
     let id: UUID
     let title: String

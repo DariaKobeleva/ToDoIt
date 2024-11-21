@@ -1,5 +1,5 @@
 //
-//  TodoRouter.swift
+//  ToDoRouter.swift
 //  ToDoIt
 //
 //  Created by Daria Kobeleva on 20.11.2024.
@@ -11,15 +11,15 @@ protocol TodoRouterProtocol {
     static func createModule() -> UIViewController
 }
 
-final class TodoRouter: TodoRouterProtocol {
+final class ToDoRouter: TodoRouterProtocol {
 
     static func createModule() -> UIViewController {
         print("TodoRouter: Creating VIPER module.")
         
-        let viewController = TodoViewController()
-        let presenter = TodoPresenter()
-        let interactor = TodoInteractor()
-        let router = TodoRouter()
+        let viewController = ToDoViewController()
+        let presenter = ToDoPresenter()
+        let interactor = ToDoInteractor()
+        let router = ToDoRouter()
         
         viewController.presenter = presenter
         presenter.view = viewController
