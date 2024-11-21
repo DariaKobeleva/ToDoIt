@@ -35,7 +35,6 @@ final class TodoDetailViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .black
-        titleTextField.placeholder = "Название"
         titleTextField.backgroundColor = .darkGray
         titleTextField.textColor = .white
         titleTextField.font = .boldSystemFont(ofSize: 18)
@@ -43,6 +42,12 @@ final class TodoDetailViewController: UIViewController {
         titleTextField.layer.masksToBounds = true
         titleTextField.setLeftPaddingPoints(8)
         titleTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let placeholderText = "Название"
+           titleTextField.attributedPlaceholder = NSAttributedString(
+               string: placeholderText,
+               attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+           )
         
         descriptionTextView.backgroundColor = .darkGray
         descriptionTextView.textColor = .lightGray
